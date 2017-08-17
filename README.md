@@ -1,2 +1,2 @@
 # ReadabilityScores
-Text Readability Scores as a micro service
+Text Readability Scores as a ervice
