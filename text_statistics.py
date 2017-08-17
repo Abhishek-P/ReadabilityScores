@@ -36,6 +36,7 @@ import time
 import sylco
 import os
 
+punctuations = {".", "!", "\"", "\'", ",", ":", ";" }
 class Word(str):
     """
     Word class -
@@ -71,10 +72,13 @@ class Sentence:
         self.get_words()
 
 
+
     def get_words(self):
         words_raw = nltk.tokenize.word_tokenize(self.value)
         self.words = []
         for word_raw in words_raw:
+            if word_raw in punctuations:
+                continue
             word = Word(word_raw)
             self.words.append(word)
             self.complex_words +=( 1 * (word.syllable_count >= 3) )
@@ -109,11 +113,14 @@ class Text:
         self.complex_words = 0
         self.syllable_count = 0
         self.get_sentences(self.text)
-        """
-        self.syllable_count = self.get_syllable_count()
-        self.complex_words = self.get_complex_words()
-        self.indices = dict()
-        self.generate_indices()"""
+        self.stats = dict()
+        self.stats["letter_count"] = self.letter_count
+        self.stats["word_count"] = self.word_count
+        self.stats["syllable_count"] = self.syllable_count
+        self.stats["complex_words"] = self.complex_words
+        self.stats["sentence_count"] = self.sentence_count
+
+
 
     def get_sentences(self, text):
         self.sentences = []
@@ -126,6 +133,7 @@ class Text:
             self.letter_count +=  sentence.letter_count
             self.complex_words += sentence.complex_words
             self.syllable_count += sentence.syllable_count
+
 
         del (sentence)
         del (sentences_raw)
