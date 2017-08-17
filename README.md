@@ -1,2 +1,2 @@
 # ReadabilityScores
-Text Readability Scores as a ervice
+Text Readability Scores Web Service
