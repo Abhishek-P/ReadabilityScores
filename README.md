@@ -10,5 +10,5 @@ Text statistics will be made available at  /get/stats as json dictionary.
 Features will be added at /get/<-variable-> at later time.
 
 Enjoy.
-Please ping me at  [abhijnvb@gmail.com](mailto:abhijnvb@gmail.com) 
+Please ping me at  [abhijnvb@gmail.com](mailto:abhijnvb@gmail.com) for further info.
 
