@@ -34,6 +34,7 @@ Word:
 import nltk
 import time
 import sylco
+import scores
 import os
 
 punctuations = {".", "!", "\"", "\'", ",", ":", ";" }
@@ -119,6 +120,7 @@ class Text:
         self.stats["syllable_count"] = self.syllable_count
         self.stats["complex_words"] = self.complex_words
         self.stats["sentence_count"] = self.sentence_count
+        self.stats["fk_index"] = scores.flesch_kincaid_score(self.stats)
 
 
 

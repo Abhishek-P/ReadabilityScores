@@ -8,11 +8,13 @@ text = ""
 pool1 = None
 pool_result = None
 
+
 def start_pool():
     global pool1
     if not pool1:
         pool1 = mp.Pool(1)
     return pool1
+
 
 @app.route("/set", methods=["POST"])
 def put():
@@ -23,16 +25,35 @@ def put():
     pool_result = pool1.apply_async(ts.Text, [request.args["text"]])
     return Response(encode({"code": "200", "message": "success"}), mimetype='text/json')
 
-@app.route("/get/stats", methods = ["GET"])
+
 def get_stats():
+        return Response(encode({"code": "200", "message":pool_result.get().stats}))
+
+
+def get_value(key):
+    if key not in pool_result.get().stats :
+        return Response(encode({"code": "200", "message": "No such stat"}), mimetype="text/json")
+
+    else:
+        return Response(encode({"code": "200", "value":pool_result.get().stats[key]}))
+
+
+get_funcs = {"stats": get_stats, "stat": get_value }
+
+
+@app.route("/get/<key>", methods = ["GET"])
+def get(key):
     if not pool_result:
-        return Response(encode({"code": "200", "message": "Please post text first at /set as args"}), mimetype="text/json")
+        return Response(encode({"code": "200", "message": "Please post text first at /set as args"}),
+                        mimetype="text/json")
     if not pool_result.ready():
         return Response(encode({"code": "200", "message": "still processing try again"}), mimetype="text/json")
 
-    else:
-        return Response(encode({"code": "200", "message":pool_result.get().stats}))
+    if key == "stats":
+        return get_funcs["stats"]()
 
+    else:
+        return get_funcs["stat"](key)
 
 
 if __name__ == "__main__":
