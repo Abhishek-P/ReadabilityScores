@@ -121,6 +121,10 @@ class Text:
         self.stats["complex_words"] = self.complex_words
         self.stats["sentence_count"] = self.sentence_count
         self.stats["fk_index"] = scores.flesch_kincaid_score(self.stats)
+        self.stats["dc_index"] = scores.dale_chall_score(self.stats)
+        self.stats["gf_index"] = scores.gunning_fog_score(self.stats)
+        self.stats["cl_index"] = scores.coleman_liau_score(self.stats)
+        self.stats["as_index"] = scores.automated_score(self.stats)
 
 
 

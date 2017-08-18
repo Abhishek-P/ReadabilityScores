@@ -22,7 +22,7 @@ def put():
     global pool_result
     text = request.args["text"]
     pool1 = start_pool()
-    pool_result = pool1.apply_async(ts.Text, [request.args["text"]])
+    pool_result = pool1.apply_async(ts.Text, [request.args["text"].encode('utf-8')])
     return Response(encode({"code": "200", "message": "success"}), mimetype='text/json')
 
 
