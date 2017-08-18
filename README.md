@@ -7,14 +7,14 @@ This is built with simple /get and /set.
 Text has to be sent as arg 'text' in a POST request.
 Text statistics will be made available at  /get/stats as json dictionary.
 
-####Step 1:
+#### Step 1:
 /set : text= < text > POST request Args not form
-####Step 2:
+#### Step 2:
 /get/stats :  returns JSON of stats
 
 /get/< stat-name > : returns value of the specific stat
 
-####Stats available:
+#### Stats available:
 *  letter_count
 *   word_count
 *   syllable_count
