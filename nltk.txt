@@ -1,1 +1,3 @@
-punkt\r\nbrown\r\ncmudict
+punkt
+brown
+cmudict
