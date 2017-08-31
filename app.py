@@ -1,12 +1,21 @@
 from flask import Flask, request, Response
+from werkzeug.contrib.fixers import ProxyFix
 import multiprocessing as mp
 import json
 import text_statistics as ts
+import os
+ON_HEROKU = os.environ.get('ON_HEROKU')
+if ON_HEROKU:
+    # get the heroku port
+    port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
+else:
+    port = 5000
 encode = json.JSONEncoder().encode
 app = Flask(__name__, static_url_path="")
 text = ""
 pool1 = None
 pool_result = None
+
 
 
 def start_pool():
@@ -54,7 +63,7 @@ def get(key):
 
     else:
         return get_funcs["stat"](key)
-
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0",port = port, debug=True)
