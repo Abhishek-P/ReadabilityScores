@@ -1,3 +1,2 @@
 brown
 punkt
-cmudict
