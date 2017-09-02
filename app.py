@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 from werkzeug.contrib.fixers import ProxyFix
 import multiprocessing as mp
 import json
@@ -17,12 +17,16 @@ pool1 = None
 pool_result = None
 
 
-
 def start_pool():
     global pool1
     if not pool1:
         pool1 = mp.Pool(1)
     return pool1
+
+
+@app.route("/")
+def home():
+    return render_template("rscores.html")
 
 
 @app.route("/set", methods=["POST"])
