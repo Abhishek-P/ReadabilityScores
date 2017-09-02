@@ -1,4 +1,4 @@
-# [readability - scores](http://readability-scores.herokuapp.com)
+# [readability - scores](http://readability-scores.herokuapp.com/get/stats) ( Click to visit )
 __readability-scores__ is a simple flask service built to provide text statistics 
 and readability scores for use with [__ReaSE__](https://github.com/Abhishek-P/ReaSE).
 
@@ -30,6 +30,8 @@ Requires:
 
 *   Flask
 *   NLTK - tokenize
+
+It may not be that user friendly now, but will try to make it so in time.
 
 Enjoy.
 Please ping me at  [abhijnvb@gmail.com](mailto:abhijnvb@gmail.com) for further info.
