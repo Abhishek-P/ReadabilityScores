@@ -33,9 +33,9 @@ def home():
 def put():
     global pool1
     global pool_result
-    text = request.args["text"]
+    text = request.form["text"]
     pool1 = start_pool()
-    pool_result = pool1.apply_async(ts.Text, [request.args["text"].encode('utf-8')])
+    pool_result = pool1.apply_async(ts.Text, [request.form["text"].encode('utf-8')])
     return Response(encode({"code": "200", "message": "success"}), mimetype='text/json')
 
 
