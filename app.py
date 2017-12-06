@@ -4,6 +4,8 @@ import multiprocessing as mp
 import json
 import text_statistics as ts
 import os
+import uuid
+import data_access
 ON_HEROKU = os.environ.get('ON_HEROKU')
 if ON_HEROKU:
     # get the heroku port
@@ -20,7 +22,7 @@ pool_result = None
 def start_pool():
     global pool1
     if not pool1:
-        pool1 = mp.Pool(1)
+        pool1 = mp.Pool(4)
     return pool1
 
 
@@ -34,9 +36,13 @@ def put():
     global pool1
     global pool_result
     text = request.form["text"]
-    pool1 = start_pool()
+    if not pool1:
+        pool1 = start_pool()
+    data_access.add_new_request(id,text)
+    id = uuid.uuid4().__int__()
+
     pool_result = pool1.apply_async(ts.Text, [request.form["text"].encode('utf-8')])
-    return Response(encode({"code": "200", "message": "success"}), mimetype='text/json')
+    return Response(encode({"code": "200", "message": "success", "id": id}), mimetype='text/json')
 
 
 def get_stats():
@@ -48,7 +54,11 @@ def get_value(key):
         return Response(encode({"code": "200", "message": "No such stat"}), mimetype="text/json")
 
     else:
-        return Response(encode({"code": "200", "value":pool_result.get().stats[key]}))
+        return Response(encode({"code": "200", "value": pool_result.get().stats[key]}))
+
+
+def get_object():
+    return Response(encode({"code": "200", "value": json.dumps(pool_result.get(), default=lambda o: o.__dict__)}))
 
 
 get_funcs = {"stats": get_stats, "stat": get_value }
@@ -64,6 +74,9 @@ def get(key):
 
     if key == "stats":
         return get_funcs["stats"]()
+
+    if key == "object":
+        return get_object()
 
     else:
         return get_funcs["stat"](key)
